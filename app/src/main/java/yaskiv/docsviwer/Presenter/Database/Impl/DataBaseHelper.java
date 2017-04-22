@@ -100,6 +100,7 @@ public class DataBaseHelper extends SQLiteOpenHelper implements IDataBaseHelper 
                 db.setTransactionSuccessful();
             }
         } catch (Exception e) {
+
             Log.d("ExceptionDocs", "error");
         } finally {
             db.endTransaction();
