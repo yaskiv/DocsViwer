@@ -1,6 +1,9 @@
 package yaskiv.docsviwer.Presenter.Impl;
 
+import android.net.Uri;
 import android.os.Bundle;
+
+import java.io.File;
 
 import yaskiv.docsviwer.Presenter.IPresenterView;
 import yaskiv.docsviwer.View.IMainActivity;
@@ -22,7 +25,12 @@ public class PresenterDocsView implements IPresenterView {
     }
 
     @Override
-    public void OpenFromWeb(String Url, Bundle b) {
+    public void OpenFromWeb(Uri Url) {
+
+    }
+
+    @Override
+    public void OpenLocalFromFile(File file) {
 
     }
 }

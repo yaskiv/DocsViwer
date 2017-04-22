@@ -28,16 +28,21 @@ public class PresenterPdfView implements IPresenterView {
     }
 
     @Override
-    public void OpenLocal(String Url) {
-        File file = new File(Url);
-     view.openPdf(file);
+    public void OpenLocal(String Name) {
+
+     view.openPdf(Name);
 
     }
 
 
     @Override
-    public void OpenFromWeb(String Url,Bundle b) {
+    public void OpenFromWeb(Uri Url) {
+view.openPdfFromWeb(Url);
 
+    }
 
+    @Override
+    public void OpenLocalFromFile(File file) {
+        view.openPdfFromFile(file);
     }
 }

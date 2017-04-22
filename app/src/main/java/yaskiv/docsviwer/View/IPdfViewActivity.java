@@ -1,5 +1,7 @@
 package yaskiv.docsviwer.View;
 
+import android.net.Uri;
+
 import java.io.File;
 
 /**
@@ -7,5 +9,8 @@ import java.io.File;
  */
 
 public interface IPdfViewActivity {
-    void openPdf(File file);
+    void openPdf(String Name);
+    void openPdfFromWeb(Uri url);
+
+    void openPdfFromFile(File file);
 }
