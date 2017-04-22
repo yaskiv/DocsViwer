@@ -7,8 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.util.List;
-
 import yaskiv.docsviwer.Model.Entity.Document;
 import yaskiv.docsviwer.Presenter.Database.IDataBaseHelper;
 
@@ -102,7 +100,7 @@ public class DataBaseHelper extends SQLiteOpenHelper implements IDataBaseHelper 
                 db.setTransactionSuccessful();
             }
         } catch (Exception e) {
-            Log.d("ExceptionDocs", "Error while trying to add or update user");
+            Log.d("ExceptionDocs", "error");
         } finally {
             db.endTransaction();
         }
@@ -111,8 +109,17 @@ public class DataBaseHelper extends SQLiteOpenHelper implements IDataBaseHelper 
     }
 
     @Override
-    public List<Document> getAllDocuments() {
-        return null;
+    public void getAllDocuments() {
+
+        String selectQuery = String.format("SELECT * FROM %s", TABLE_DOCS);
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cur = db.rawQuery(selectQuery, null);
+        if(cur.moveToFirst()) {
+            do {
+                //mainActivity.categoriesIncomes.add(new CategoriesCash(Integer.parseInt(cur.getString(0)), cur.getString(1)));
+            } while (cur.moveToNext());
+            cur.close();
+        }
     }
 
     public static synchronized DataBaseHelper getInstance(Context context)
