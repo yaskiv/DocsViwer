@@ -1,6 +1,5 @@
 package yaskiv.docsviwer.Presenter.Impl;
 
-import yaskiv.docsviwer.Model.Entity.Document;
 import yaskiv.docsviwer.Presenter.IPresenterMain;
 import yaskiv.docsviwer.View.IMainActivity;
 
@@ -15,6 +14,11 @@ public class PresenterMain implements IPresenterMain{
 
     public PresenterMain(IMainActivity mainActivityView) {
         this.mainActivityView = mainActivityView;
+
+    }
+
+    @Override
+    public void St(String sk) {
 
     }
 }

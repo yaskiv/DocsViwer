@@ -5,4 +5,5 @@ package yaskiv.docsviwer.Presenter;
  */
 
 public interface IPresenterMain {
+    void St(String sk);
 }
