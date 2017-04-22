@@ -23,6 +23,9 @@ public class DataBaseHelper extends SQLiteOpenHelper implements IDataBaseHelper 
     private static final String TABLE_DOCS = "Documents";
 
     private static final String KEY_DOCS_ID = "id";
+
+
+
     private static final String KEY_DOCS_NAME = "name";
     private static final String KEY_DOCS_DATE = "date";
     private static final String KEY_DOCS_LOCAL_URL = "localURL";
@@ -31,7 +34,7 @@ public class DataBaseHelper extends SQLiteOpenHelper implements IDataBaseHelper 
 
     private static DataBaseHelper sInstance;
 
-    private DataBaseHelper(Context context) {
+    public DataBaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -44,7 +47,7 @@ public class DataBaseHelper extends SQLiteOpenHelper implements IDataBaseHelper 
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String CREATE_USERS_TABLE = "CREATE TABLE " + TABLE_DOCS +
+        String CREATE_USERS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_DOCS +
                 "(" +
                 KEY_DOCS_ID + " INTEGER PRIMARY KEY," +
                 KEY_DOCS_NAME + " VARCHAR," +
@@ -132,7 +135,12 @@ public class DataBaseHelper extends SQLiteOpenHelper implements IDataBaseHelper 
         return documents;
     }
 
-    public static synchronized DataBaseHelper getInstance(Context context)
+    @Override
+    public  String getDatabaseName() {
+        return DATABASE_NAME;
+    }
+
+    public  synchronized DataBaseHelper getInstance(Context context)
     {
         if(sInstance == null)
         {

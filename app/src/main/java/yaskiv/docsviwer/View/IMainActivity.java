@@ -8,6 +8,6 @@ import android.view.View;
 
 public interface IMainActivity {
      void ButtonClick (View view);
-
+     void OnItemClick (View view);
 
 }
