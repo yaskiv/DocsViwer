@@ -129,6 +129,7 @@ public class DataBaseHelper extends SQLiteOpenHelper implements IDataBaseHelper 
              } while (cur.moveToNext());
             cur.close();
         }
+
     }
 
     public static synchronized DataBaseHelper getInstance(Context context)
