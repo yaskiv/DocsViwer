@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import yaskiv.docsviwer.Model.Entity.Document;
+import yaskiv.docsviwer.Model.Impl.Documents;
 import yaskiv.docsviwer.Presenter.Database.IDataBaseHelper;
 
 /**
@@ -112,13 +113,20 @@ public class DataBaseHelper extends SQLiteOpenHelper implements IDataBaseHelper 
     @Override
     public void getAllDocuments() {
 
+        Documents documents = new Documents();
+
         String selectQuery = String.format("SELECT * FROM %s", TABLE_DOCS);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cur = db.rawQuery(selectQuery, null);
         if(cur.moveToFirst()) {
             do {
-                //mainActivity.categoriesIncomes.add(new CategoriesCash(Integer.parseInt(cur.getString(0)), cur.getString(1)));
-            } while (cur.moveToNext());
+                documents.getListOfDocument().add(new Document(Integer.parseInt(cur.getString(0)),
+                        cur.getString(1),
+                        java.sql.Date.valueOf(cur.getString(2)),
+                        cur.getString(3),
+                        cur.getString(4),
+                        Boolean.getBoolean(cur.getString(5))));
+             } while (cur.moveToNext());
             cur.close();
         }
     }
