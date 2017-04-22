@@ -1,12 +1,14 @@
 package yaskiv.docsviwer.View.Impl.Activitys;
 
 import android.Manifest;
+import org.apache.commons.io.FilenameUtils;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -15,6 +17,8 @@ import android.provider.DocumentsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,6 +30,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import yaskiv.docsviwer.Adapter.RecyclerViewAdapter;
+import yaskiv.docsviwer.Model.Entity.Document;
+import yaskiv.docsviwer.Presenter.Database.Impl.DataBaseHelper;
 import yaskiv.docsviwer.Presenter.Impl.PresenterPdfView;
 import yaskiv.docsviwer.R;
 import yaskiv.docsviwer.View.IPdfViewActivity;
@@ -34,6 +41,10 @@ import yaskiv.docsviwer.View.Impl.Services.FileDownladService;
 public class PdfViewActivity extends AppCompatActivity implements IPdfViewActivity {
 PDFView pdfView;
     PresenterPdfView presenterPdfView;
+    DataBaseHelper dbHelper;
+    SQLiteDatabase db;
+    RecyclerView recyclerView;
+    RecyclerViewAdapter adapter;
 
 
     @Override
@@ -69,7 +80,26 @@ PDFView pdfView;
                 return;
             }
         }
-        Log.d("QWERAS", String.valueOf(intent.getData()));
+        String withPDF =String.valueOf(intent.getData())
+                .substring(String.valueOf(intent.getData())
+                        .lastIndexOf('/')+1, String.valueOf(intent.getData()).length());
+
+        Log.d("QWERAS", String.valueOf(intent.getData())
+                .substring(String.valueOf(intent.getData())
+                        .lastIndexOf('/')+1, String.valueOf(intent.getData()).length()));
+        Log.d("ss11", withPDF.substring(0, withPDF.lastIndexOf('.')));
+        String fileName =withPDF.substring(0, withPDF.lastIndexOf('.'));
+        dbHelper=new DataBaseHelper(this);
+        db=openOrCreateDatabase(dbHelper.getDatabaseName(), Context.MODE_PRIVATE,
+                null);
+        dbHelper.onCreate(db);
+        Document document=new Document(2,fileName, java.sql.Date.valueOf("1001-12-12"),
+                intent.getData().toString(),
+                intent.getData().toString(),true);
+        dbHelper.addOrUpdateDocuments(document);
+
+
+        Log.d("sss", intent.getData().toString());
         presenterPdfView.OpenFromWeb(intent.getData());
         Log.d("fsdf", "onCreate: ");
     }

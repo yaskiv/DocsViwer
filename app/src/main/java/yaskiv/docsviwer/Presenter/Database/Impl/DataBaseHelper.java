@@ -5,7 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.icu.text.SimpleDateFormat;
 import android.util.Log;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import yaskiv.docsviwer.Model.Entity.Document;
 import yaskiv.docsviwer.Model.Impl.Documents;
@@ -100,6 +105,7 @@ public class DataBaseHelper extends SQLiteOpenHelper implements IDataBaseHelper 
                     }
                 }
             } else {
+                Log.d("dsa", values.getAsString(KEY_DOCS_SAVE));
                 documentsID = db.insertOrThrow(TABLE_DOCS, null, values);
                 db.setTransactionSuccessful();
             }
@@ -121,15 +127,26 @@ public class DataBaseHelper extends SQLiteOpenHelper implements IDataBaseHelper 
         String selectQuery = String.format("SELECT * FROM %s", TABLE_DOCS);
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cur = db.rawQuery(selectQuery, null);
+        String pattern = "YYYY:MM:DD";
+        String date="14-03-2014 09:02:10";
+        String reqdate=date.substring(0,10);
+        List<Document> list=new ArrayList<>();
+        //SimpleDateFormat format = new SimpleDateFormat(pattern);
         if(cur.moveToFirst()) {
             do {
-                documents.getListOfDocument().add(new Document(Integer.parseInt(cur.getString(0)),
+                Log.d("dsa",cur.getString(0)+"|"+cur.getString(1)+"|"
+                        + java.sql.Date.valueOf(cur.getString(2).replace(".","-")).toString()
+                        +"|"+cur.getString(3)+"|"+ cur.getString(4)+"|"+(cur.getInt(5) == 1));
+
+                list.add(new Document(
+                        Integer.parseInt(cur.getString(0)),
                         cur.getString(1),
-                        java.sql.Date.valueOf(cur.getString(2)),
+                        java.sql.Date.valueOf(cur.getString(2).replace(".","-")),
                         cur.getString(3),
                         cur.getString(4),
-                        Boolean.getBoolean(cur.getString(5))));
+                        (cur.getInt(5) == 1)));
              } while (cur.moveToNext());
+            documents.setListOfDocument(list);
             cur.close();
         }
         return documents;

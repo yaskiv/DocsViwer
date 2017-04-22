@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Collections;
 import java.util.List;
 
 import yaskiv.docsviwer.Model.Entity.Document;
@@ -19,7 +20,7 @@ import yaskiv.docsviwer.R;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter <RecyclerViewAdapter.ViewHolder> {
     private LayoutInflater inflater;
-    List<Document> listOfDocuments;
+    List<Document> listOfDocuments = Collections.EMPTY_LIST;
     public RecyclerViewAdapter (Context context, List<Document> listOfDocuments)
     {
          inflater = LayoutInflater.from(context);
@@ -53,7 +54,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter <RecyclerViewAdapt
 
     @Override
     public int getItemCount() {
-        return 0;
+        return listOfDocuments.size();
     }
 
 
