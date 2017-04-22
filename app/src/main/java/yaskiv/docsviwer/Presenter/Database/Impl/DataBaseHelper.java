@@ -111,7 +111,7 @@ public class DataBaseHelper extends SQLiteOpenHelper implements IDataBaseHelper 
     }
 
     @Override
-    public void getAllDocuments() {
+    public Documents getAllDocuments() {
 
         Documents documents = new Documents();
 
@@ -129,7 +129,7 @@ public class DataBaseHelper extends SQLiteOpenHelper implements IDataBaseHelper 
              } while (cur.moveToNext());
             cur.close();
         }
-
+        return documents;
     }
 
     public static synchronized DataBaseHelper getInstance(Context context)
