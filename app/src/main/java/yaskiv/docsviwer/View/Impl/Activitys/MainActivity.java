@@ -1,4 +1,4 @@
-package yaskiv.docsviwer.View.Impl;
+package yaskiv.docsviwer.View.Impl.Activitys;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
