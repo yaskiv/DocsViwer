@@ -18,12 +18,17 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import yaskiv.docsviwer.R;
+
 import yaskiv.docsviwer.View.IFileDownladService;
 import yaskiv.docsviwer.View.Impl.Activitys.MainActivity;
 
+
+
 public class FileDownladService extends Service  implements IFileDownladService {
     Context ct;
+
+    public FileDownladService() {
+    }
 
     public FileDownladService(Context ct) {
         this.ct = ct;
@@ -37,7 +42,8 @@ public class FileDownladService extends Service  implements IFileDownladService 
     }
     @Override
     public IBinder onBind(Intent intent) {
-        downladFile(intent.getStringExtra("fileUrl"),intent.getStringExtra("fileName"));
+     //fisl=   downladFile(intent.getStringExtra("fileUrl"),intent.getStringExtra("fileName"));
+
         return mBinder;
     }
 
@@ -54,7 +60,7 @@ public class FileDownladService extends Service  implements IFileDownladService 
         builder.setTicker("this is ticker text");
         builder.setContentTitle(title);
         builder.setContentText(message);
-        builder.setSmallIcon(R.mipmap.ic_launcher);
+
         builder.setContentIntent(pendingIntent);
         builder.setOngoing(true);
         builder.setNumber(100);
@@ -66,7 +72,7 @@ public class FileDownladService extends Service  implements IFileDownladService 
     }
 
     @Override
-    public void downladFile(String fileURL, String fileName) {
+    public File downladFile(String fileURL, String fileName) {
 
 
         StatFs stat_fs = new StatFs(Environment.getExternalStorageDirectory().getPath());
@@ -74,6 +80,7 @@ public class FileDownladService extends Service  implements IFileDownladService 
         double MB_Available = (avail_sd_space / 10485783);
 
         Log.d("MB", "" + MB_Available);
+        File fa=null;
         try {
             File root = new File(Environment.getExternalStorageDirectory() + "/docsviwer");
             if (root.exists() && root.isDirectory()) {
@@ -92,10 +99,10 @@ public class FileDownladService extends Service  implements IFileDownladService 
             if (MB_Available <= fileSize) {
                 this.showNotification("No memmory", "You don t have memory");
                 c.disconnect();
-                return;
+                return null;
             }
-
-            FileOutputStream f = new FileOutputStream(new File(root.getPath(), fileName));
+            fa=new File(root.getPath(), fileName);
+            FileOutputStream f = new FileOutputStream(fa);
 
             InputStream in = c.getInputStream();
 
@@ -115,5 +122,6 @@ public class FileDownladService extends Service  implements IFileDownladService 
 
 
         }
+        return fa;
     }
 }
